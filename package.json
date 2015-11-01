@@ -1,0 +1,12 @@
+{
+  "name": "battlefield-nodejs",
+  "version": "0.0.0",
+  "description": "battlefield game in node console" ,
+  "main": "app.js",
+  "author": "Alex Badescu",
+  "private": true,
+  "license": "BSD",
+"dependencies": {
+  "prompt": "*"
+}
+}

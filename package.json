@@ -7,10 +7,9 @@
   "private": true,
   "license": "BSD",
   "dependencies": {
-    "express": "*",
-  "babel":"*",
-  "underscore":"*",
+    "underscore": "*",
     "prompt": "*",
-    "bufferutil": "^1.2.1"
+    "es6-module-loader": "*",
+    "traceur" : "*"
   }
 }

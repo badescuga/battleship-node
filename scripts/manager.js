@@ -8,38 +8,41 @@ class Manager {
 
 	}
 
-	Init() {
-		this.playerBattlefield = new Battlefield();
-		this.enemyBattlefield = new Battlefield();
+	async Init() {
+	this.playerBattlefield = new Battlefield();
+	this.enemyBattlefield = new Battlefield();
 
-		this.AddEnemyShips();
-		this.AddPlayerShips();
-	}
+	console.log("");
+	this.AddEnemyShips();
+	await this.AddPlayerShips();
+	console.log("");
+	
+}
 
 
-	AddEnemyShips() {
-		//adding computer ships
-		var addedShips = 0;
-		while (addedShips < 3) {
-			var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1)
-			var randY = Math.floor((Math.random() * this.enemyBattlefield.sizeY) + 1)
-			var ship = null;
-			if (addedShips === 0) {
-				ship = new Battleship(randX, randY);
-			} else {
-				ship = new Destroyer(randX, randY);
-			}
-			var shipWasAdded = this.enemyBattlefield.AddShip(ship, false);
-			if (shipWasAdded) {
-				addedShips++;
-				console.log("enemy ship added!");
-			} else {
-				//	console.log("problem adding ship, will try again with new coords");
-			}
+AddEnemyShips() {
+	//adding computer ships
+	var addedShips = 0;
+	while (addedShips < 3) {
+		var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1)
+		var randY = Math.floor((Math.random() * this.enemyBattlefield.sizeY) + 1)
+		var ship = null;
+		if (addedShips === 0) {
+			ship = new Battleship(randX, randY);
+		} else {
+			ship = new Destroyer(randX, randY);
+		}
+		var shipWasAdded = this.enemyBattlefield.AddShip(ship, false);
+		if (shipWasAdded) {
+			addedShips++;
+			console.log("enemy ship added!");
+		} else {
+			//	console.log("problem adding ship, will try again with new coords");
 		}
 	}
+}
 
-	async AddPlayerShips() {
+async AddPlayerShips() {
 		
 	var addedShipsNr = 0;
 	while (addedShipsNr < 3) {
@@ -60,8 +63,9 @@ class Manager {
 			var hasAddedShip = this.playerBattlefield.AddShip(ship, true);
 			if (hasAddedShip) {
 				addedShipsNr++;
-				console.log("SHIP ADDED");
+				console.log("SHIP ADDED; YOUR BATTLEFIELD: ");
 				console.log("");
+				this.playerBattlefield.Print(true);
 			}
 		} else {
 			console.log("data added is not correct; try again");

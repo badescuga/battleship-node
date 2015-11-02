@@ -35,7 +35,7 @@ var promptAddShipAsync = async function() {
     // console.log("data untraslated: " + data);
     var point = Converter.ToBattleshipCoord(data);
     if (point != null) {
-      console.log("data translated: " + point.ToString());
+    //  console.log("data translated: " + point.ToString());
       return point;
     }
 

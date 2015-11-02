@@ -10,6 +10,6 @@
     "underscore": "*",
     "prompt": "*",
     "es6-module-loader": "*",
-    "traceur" : "*"
+    "babel":"5.x"
   }
 }

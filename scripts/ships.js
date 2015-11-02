@@ -4,7 +4,11 @@ class Ship {
 	constructor(x,y) {
 		this.type = "none";
 		this.size = 0;
-		this.headPosition = new Point(x,y);
+		this.headPoint = new Point(x,y);
+	}
+	
+	ToString() {
+		return `SHIP: ${this.type} ${this.size} ${this.headPoint.ToString()}`;
 	}
 }
 

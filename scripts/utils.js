@@ -9,4 +9,25 @@ class Point {
 	}
 }
 
-export {Point};
+class Converter {
+	static ToBattleshipCoord(str) { // forced for battlefield size of 10x10
+		if(str.length === 2) {
+			var first = str.charCodeAt(0);
+			var second = str.charAt(1);
+			if ( ((first >= 65) && (first < 75)) || ((first >= 97) && (first < 107)) ) {
+				
+				var nr = parseInt(second+"");
+				if(nr) {
+					if(nr >= 0 && nr < 10) {
+						return new Point(first - 65 + 1, nr + 1);
+					}
+				}
+				}
+		}
+		return null;
+	}
+
+	
+}
+
+export {Point, Converter};

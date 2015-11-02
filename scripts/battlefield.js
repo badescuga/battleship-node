@@ -4,7 +4,7 @@
 
 ###########################################*/
 
-import {Ship, Battleship, Destroyer } from "./ships.js";
+//import {Ship, Battleship, Destroyer } from "./ships.js";
 import {Point} from "./utils.js";
 var TileType = {
 	Empty: 0,
@@ -30,17 +30,23 @@ class Battlefield {
 		return arr;
 	}
 
-	CanAddShip(ship) {
+	CanAddShip(ship, showErrorMessage) {
+		console.log(ship.ToString());
+
 		if (ship.size > 0) {
 			var head = ship.headPoint;
 			var tail = new Point(head.x, head.y + ship.size - 1); // wrote explicity for clarity
-			var arr = [head, tail];
-
+			var ptsArray = [head, tail];
+				console.log(`point: ${head.ToString() }`);
 			var pointsAreInsideArray = true;
-			for (var point in arr) { //check if head and tail are inside battlefield
+			for (var i = 0; i < ptsArray.length; i++) { //check if head and tail are inside battlefield
+				console.log(`point: ${point.ToString() }`);
+				var point = ptsArray[i];
 				if (this.IsPointInnerMap(point) === false) {
 					pointsAreInsideArray = false;
-					console.log(point.ToString() + "; ship is outside of battlefield");
+					if (showErrorMessage) {
+						console.log(point.ToString() + "; ship is outside of battlefield");
+					}
 				}
 			}
 
@@ -54,15 +60,22 @@ class Battlefield {
 				if (spaceIsEmpty) {
 					return true;
 				} else {
-					console.log("the ship overlaps with occupied terrain");
+					if (showErrorMessage) {
+						console.log("the ship overlaps with occupied space");
+					}
 				}
+			}
+		} else {
+			if (showErrorMessage) {
+				console.log("ERROR: ship size: " + ship.size);
 			}
 		}
 		return false;
 	}
 
-	AddShip(ship) {
-		var canAddShip = this.CanAddShip(ship);
+	AddShip(ship, showErrorMessage) {
+
+		var canAddShip = this.CanAddShip(ship, showErrorMessage);
 		if (canAddShip) {
 			for (var i = ship.headPoint.y; i < ship.headPoint.y + ship.size; i++) {
 				this.array[ship.headPoint.x][i] = TileType.Occupied;
@@ -72,6 +85,7 @@ class Battlefield {
 	}
 
 	IsPointInnerMap(point) { // is the point internal to the map
+		console.log("check if point inside map: " + point.ToString());
 		if (point.x <= 0 || point.x > this.sizeX || point.y <= 0 || point.y > this.sizeY) {
 			return false;
 		}
@@ -79,7 +93,7 @@ class Battlefield {
 	}
 
 	Hit(point) { //hit
-		if(this.array[point.x][point.y] === TileType.Empty) {
+		if (this.array[point.x][point.y] === TileType.Empty) {
 			this.array[point.x][point.y] = TileType.Hit;
 			return true;
 		}

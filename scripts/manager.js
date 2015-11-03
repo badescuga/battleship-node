@@ -9,19 +9,16 @@ class Manager {
 	}
 
 	async Init() {
-	this.playerBattlefield = new Battlefield();
-	this.enemyBattlefield = new Battlefield();
-
-	console.log("");
-	this.AddEnemyShips();
-	await this.AddPlayerShips();
-	console.log("");
-	
+	this.InitEnemy(); 	//add enemy
+	await this.InitPlayer();	//add for user
 }
 
 
-AddEnemyShips() {
+InitEnemy() {
+	//init array
+	this.enemyBattlefield = new Battlefield();
 	//adding computer ships
+	console.log("");
 	var addedShips = 0;
 	while (addedShips < 3) {
 		var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1)
@@ -42,8 +39,10 @@ AddEnemyShips() {
 	}
 }
 
-async AddPlayerShips() {
-		
+async InitPlayer() {
+	//init array
+	this.playerBattlefield = new Battlefield();
+
 	var addedShipsNr = 0;
 	while (addedShipsNr < 3) {
 		console.log("");
@@ -72,6 +71,7 @@ async AddPlayerShips() {
 		}
 
 	}
+	console.log("");
 }
 
 }

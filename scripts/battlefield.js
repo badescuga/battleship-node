@@ -16,10 +16,10 @@ class Battlefield {
 	constructor() {
 		this.sizeX = 10;
 		this.sizeY = 10;
-		this.array = this.CreateEmptyField(this.sizeX, this.sizeY);
+		this.array = this._CreateEmptyField(this.sizeX, this.sizeY);
 	}
 
-	CreateEmptyField(x, y) {
+	_CreateEmptyField(x, y) {
 
 		var arr = [];
 		arr.push([]); //empty array b/c i'm starting from 1
@@ -36,7 +36,7 @@ class Battlefield {
 		return arr;
 	}
 
-	CanAddShip(ship, showErrorMessage) {
+	_CanAddShip(ship, showErrorMessage) {
 		if (ship.size > 0) {
 			var head = ship.headPoint;
 			var tail = new Point(head.x + ship.size - 1, head.y); // wrote explicity for clarity
@@ -77,7 +77,7 @@ class Battlefield {
 
 	AddShip(ship, showErrorMessage) {
 
-		var canAddShip = this.CanAddShip(ship, showErrorMessage);
+		var canAddShip = this._CanAddShip(ship, showErrorMessage);
 		if (canAddShip) {
 			for (var i = ship.headPoint.x; i < ship.headPoint.x + ship.size; i++) {
 				this.array[i][ship.headPoint.y] = TileType.Occupied;

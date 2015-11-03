@@ -4,8 +4,7 @@
 
 ###########################################*/
 
-//import {Ship, Battleship, Destroyer } from "./ships.js";
-import {Point} from "./utils.js";
+import {Point} from './utils.js';
 
 var TileType = {
 	Empty: 0,
@@ -48,7 +47,7 @@ class Battlefield {
 				if (this.IsPointInnerMap(point) === false) {
 					pointsAreInsideArray = false;
 					if (showErrorMessage) {
-						console.log(point.ToString() + "; ERROR: ship is outside of battlefield");
+						console.log(point.ToString() + '; ERROR: ship is outside of battlefield');
 					}
 				}
 			}
@@ -64,13 +63,13 @@ class Battlefield {
 					return true;
 				} else {
 					if (showErrorMessage) {
-						console.log("the ship overlaps with occupied space");
+						console.log('the ship overlaps with occupied space');
 					}
 				}
 			}
 		} else {
 			if (showErrorMessage) {
-				console.log("ERROR: ship size: " + ship.size);
+				console.log('ERROR: ship size: ' + ship.size);
 			}
 		}
 		return false;
@@ -94,7 +93,7 @@ class Battlefield {
 		return true;
 	}
 
-	HasBeenHit(point) {
+	AlreadyHit(point) {
 		if (this.array[point.x][point.y] === TileType.Hit) {
 			return true;
 		}
@@ -122,26 +121,26 @@ class Battlefield {
 
 	Print(showShips) {
 		if (this.array) {
-			process.stdout.write("  ");
+			process.stdout.write('  ');
 			for (var q = 0; q < this.sizeY; q++) { // print headers
-				process.stdout.write(q + " ");
+				process.stdout.write(q + ' ');
 			}
 
-			process.stdout.write("\n");
+			process.stdout.write('\n');
 			for (var i = 1; i <= this.sizeX; i++) {
 
 				process.stdout.write(String.fromCharCode(i + 65 - 1));
 				for (var j = 1; j <= this.sizeY; j++) {
 					if (!showShips && this.array[i][j] === TileType.Occupied) {
-						process.stdout.write(" " + TileType.Empty);
+						process.stdout.write(' ' + TileType.Empty);
 					} else {
-						process.stdout.write(" " + this.array[i][j]);
+						process.stdout.write(' ' + this.array[i][j]);
 					}
 				}
-				process.stdout.write("\n");
+				process.stdout.write('\n');
 			}
 		} else {
-			console.log("array is null");
+			console.log('array is null');
 		}
 	}
 

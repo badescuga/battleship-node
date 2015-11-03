@@ -1,17 +1,27 @@
-import {Battlefield} from "./battlefield.js";
-import {Ship, Battleship, Destroyer } from "./ships.js";
-import {EnemyAI} from "./enemyAI.js";
-var consolePrompter = require("./consolePrompter.js");
+/*========================================================
+console battlefield against the computer. 
+
+-you have 3 ships you can add. 2 destoyers (sized 1x4) and
+1 battleship (sized 1x5)
+-input is to be added in a 2 value format: [A-J][0-9]. 
+-details regarding battlefield map: 
+	0 - Empty / 1 - Occupied(Ship) / 2 - Hit
+-once you hit an enemy ship, you get another shot.
+ ========================================================*/
+
+
+import {Battlefield} from './battlefield.js';
+import {Battleship, Destroyer } from './ships.js';
+import {EnemyAI} from './enemyAI.js';
+var consolePrompter = require('./consolePrompter.js');
 
 
 class Manager {
 	constructor() {
 		this.Init();
-
 	}
 
 	async Init() {
-		
 	this.InitEnemy(); 	//add enemy
 	await this.InitPlayer();	//add for user
 	this.StartGame();
@@ -19,11 +29,11 @@ class Manager {
 
 
 InitEnemy() {
-	console.log("start loading enemy..");
+	console.log('start loading enemy..');
 	//init array
 	this.enemyBattlefield = new Battlefield();
 	//adding computer ships
-	console.log("");
+	console.log('');
 	var addedShips = 0;
 	while (addedShips < 3) {
 		var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1);
@@ -37,31 +47,31 @@ InitEnemy() {
 		var shipWasAdded = this.enemyBattlefield.AddShip(ship, false);
 		if (shipWasAdded) {
 			addedShips++;
-			console.log("enemy ship added!");
+			console.log('enemy ship added!');
 		} else {
-			//	console.log("problem adding ship, will try again with new coords");
+			//	console.log('problem adding ship, will try again with new coords');
 		}
 	}
 }
 
 async InitPlayer() {
-	console.log("\nstart loading player..");
+	console.log('\nstart loading player..');
 	//init array
 	this.playerBattlefield = new Battlefield();
 	var addedShipsNr = 0;
 	while (addedShipsNr < 3) {
-		console.log("");
+		console.log('');
 		if (addedShipsNr < 2) {
-			console.log("adding destroyer (size 1x4)");
+			console.log('adding destroyer (size 1x4)');
 		} else {
-			console.log("adding battleship (size 1x5)");
+			console.log('adding battleship (size 1x5)');
 		}
 
 		var point = null;
 		try {
 			point = await consolePrompter.promptAddPositionAsync();
 		} catch (error) {
-			console.log("ERROR: " + error);
+			console.log('ERROR: ' + error);
 		}
 		var ship = null;
 		if (point) {
@@ -73,53 +83,50 @@ async InitPlayer() {
 			var hasAddedShip = this.playerBattlefield.AddShip(ship, true);
 			if (hasAddedShip) {
 				addedShipsNr++;
-				console.log("SHIP ADDED; YOUR BATTLEFIELD: ");
-				console.log("");
+				console.log('SHIP ADDED; YOUR BATTLEFIELD: ');
+				console.log('');
 				this.playerBattlefield.Print(true);
 			}
 		} else {
-			console.log("data added is not correct; try again");
+			console.log('data added is not correct; try again');
 		}
-
 	}
-	console.log("");
+	console.log('');
 }
 
-
-
 async PlayerStrike() {
-	console.log("==>>>> your turn =========>>>>>>");
+	console.log('==>>>> your turn =========>>>>>>');
 	var point = null;
 	do {
 		try {
 			point = await consolePrompter.promptAddPositionAsync();
 		} catch (error) {
-			console.log("ERROR: " + error);
+			console.log('ERROR: ' + error);
 		}
 		if (point === null) {
-			console.log("point not correct; please try again")
-		} else if (this.enemyBattlefield.HasBeenHit(point)) {
-			console.log("destination was already hit by you; retry");
+			console.log('point not correct; please try again')
+		} else if (this.enemyBattlefield.AlreadyHit(point)) {
+			console.log('destination was already hit by you; retry');
 			point = null;
 		}
 	} while (point === null);
 
 	var shipHitted = this.enemyBattlefield.Hit(point);
 	if (shipHitted) {
-		console.log("!!!! your hit the enemy's ship at point:" + point.ToString());
+		console.log('!!!! your hit the enemy\'s ship at point:' + point.ToString());
 		if (this.enemyBattlefield.CheckIfShipsLeft() === false) {
-			console.log("!!!!!!!!!!!!!!!!!!!! You've won!!! ");
+			console.log('!!!!!!!!!!!!!!!!!!!! You\'ve won!!! ');
 			this.GameStarted = false;
 		}
 		return true;
 	} else {
-		console.log("your missed!! :" + point.ToString());
+		console.log('you\'ve missed!! :' + point.ToString());
 		return false;
 	}
 }
 
 async StartGame() {
-	console.log("loading game..");
+	console.log('loading game..');
 	this.GameStarted = true;
 
 	while (this.GameStarted) {
@@ -137,15 +144,14 @@ async StartGame() {
 				repeatStrike = await this.PlayerStrike();
 			} while (repeatStrike === true && this.GameStarted === true);
 		}
-		
-		console.log("Your battlefield:");
+
+		console.log('Your battlefield:');
 		this.playerBattlefield.Print(true);
-		
-		console.log("\nenemy's battlefield:");
-		this.enemycd Battlefield.Print(true);
+
+		console.log('\nenemy\'s battlefield:');
+		this.enemyBattlefield.Print(true);
 	}
 }
-
 }
 
 export {Manager}

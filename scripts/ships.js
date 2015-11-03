@@ -1,8 +1,8 @@
-import {Point} from "./utils.js";
+import {Point} from './utils.js';
 
 class Ship {
 	constructor(x,y) {
-		this.type = "none";
+		this.type = 'none';
 		this.size = 0;
 		this.headPoint = new Point(x,y);
 	}
@@ -15,7 +15,7 @@ class Ship {
 class Battleship extends Ship {
 	constructor(x,y) {
 		super(x,y);
-		this.type = "battleship";
+		this.type = 'battleship';
 		this.size = 5;
 	}	
 }
@@ -24,7 +24,7 @@ class Battleship extends Ship {
 class Destroyer extends Ship {
 	constructor(x,y) {
 		super(x,y);
-		this.type = "destroyer";
+		this.type = 'destroyer';
 		this.size = 4;
 	}	
 }

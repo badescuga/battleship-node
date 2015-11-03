@@ -1,4 +1,4 @@
-import {Point, Converter} from "./utils.js";
+import {Point, Converter} from './utils.js';
 import prompt from 'prompt'; 
 // 
 // Start the prompt 
@@ -31,15 +31,15 @@ var promptAddPositionAsync = async function() {
   var data = null;
   try {
     data = await promptAddPositionPromise();
-    // console.log("data untraslated: " + data);
+    // console.log('data untraslated: ' + data);
     var point = Converter.ToBattleshipCoord(data);
     if (point != null) {
-    //  console.log("data translated: " + point.ToString());
+    //  console.log('data translated: ' + point.ToString());
       return point;
     }
 
   } catch (error) {
-    console.log("--- " + error);
+    console.log('--- ' + error);
   }
 
   return null;

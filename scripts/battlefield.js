@@ -6,6 +6,7 @@
 
 //import {Ship, Battleship, Destroyer } from "./ships.js";
 import {Point} from "./utils.js";
+
 var TileType = {
 	Empty: 0,
 	Occupied: 1,
@@ -94,7 +95,7 @@ class Battlefield {
 	}
 
 	Hit(point) { //hit
-		if (this.array[point.x][point.y] === TileType.Empty) {
+		if (this.array[point.x][point.y] !== TileType.Hit) {
 			this.array[point.x][point.y] = TileType.Hit;
 			return true;
 		}
@@ -129,5 +130,5 @@ class Battlefield {
 
 }
 
-export { Battlefield };
+export { Battlefield, TileType };
 

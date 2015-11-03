@@ -1,6 +1,5 @@
-var prompt = require('prompt');
 import {Point, Converter} from "./utils.js";
- 
+import prompt from 'prompt'; 
 // 
 // Start the prompt 
 // 
@@ -11,7 +10,7 @@ prompt.start();
 // 
  
 
-var promptAddShipPromise = function () {
+var promptAddPositionPromise = function () {
   return new Promise(function (resolve, reject) {
     prompt.get(['position'], function (err, result) {
 
@@ -28,10 +27,10 @@ var promptAddShipPromise = function () {
   });
 }
 
-var promptAddShipAsync = async function() {
+var promptAddPositionAsync = async function() {
   var data = null;
   try {
-    data = await promptAddShipPromise();
+    data = await promptAddPositionPromise();
     // console.log("data untraslated: " + data);
     var point = Converter.ToBattleshipCoord(data);
     if (point != null) {
@@ -46,6 +45,7 @@ var promptAddShipAsync = async function() {
   return null;
 }
 
+
 module.exports = {
-  promptAddShipAsync: promptAddShipAsync
+  promptAddPositionAsync: promptAddPositionAsync
 }

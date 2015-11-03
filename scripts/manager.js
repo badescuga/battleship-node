@@ -1,6 +1,8 @@
 import {Battlefield} from "./battlefield.js";
 import {Ship, Battleship, Destroyer } from "./ships.js";
+import {EnemyAI} from "./enemyAI.js";
 var consolePrompter = require("./consolePrompter.js");
+
 
 class Manager {
 	constructor() {
@@ -9,20 +11,23 @@ class Manager {
 	}
 
 	async Init() {
+		
 	this.InitEnemy(); 	//add enemy
 	await this.InitPlayer();	//add for user
+	this.StartGame();
 }
 
 
 InitEnemy() {
+	console.log("start loading enemy..");
 	//init array
 	this.enemyBattlefield = new Battlefield();
 	//adding computer ships
 	console.log("");
 	var addedShips = 0;
 	while (addedShips < 3) {
-		var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1)
-		var randY = Math.floor((Math.random() * this.enemyBattlefield.sizeY) + 1)
+		var randX = Math.floor((Math.random() * this.enemyBattlefield.sizeX) + 1);
+		var randY = Math.floor((Math.random() * this.enemyBattlefield.sizeY) + 1);
 		var ship = null;
 		if (addedShips === 0) {
 			ship = new Battleship(randX, randY);
@@ -40,9 +45,9 @@ InitEnemy() {
 }
 
 async InitPlayer() {
+	console.log("\nstart loading player..");
 	//init array
 	this.playerBattlefield = new Battlefield();
-
 	var addedShipsNr = 0;
 	while (addedShipsNr < 3) {
 		console.log("");
@@ -51,7 +56,11 @@ async InitPlayer() {
 		} else {
 			console.log("adding battleship (size 1x5)");
 		}
-		var point = await consolePrompter.promptAddShipAsync();
+		try {
+		var point = await consolePrompter.promptAddPositionAsync();
+		} catch(error) {
+			console.log("ERROR: "+error);
+		}
 		var ship = null;
 		if (point) {
 			if (addedShipsNr < 2) {
@@ -72,6 +81,23 @@ async InitPlayer() {
 
 	}
 	console.log("");
+}
+
+StartGame() {
+	console.log("loading game..");
+	this.GameStarted = true;
+
+	while (this.GameStarted) {
+		var point = EnemyAI.GetHittablePosition(this.playerBattlefield);
+		if(point !== null) {
+		console.log("ENEMY GOT POINT: "+point.ToString());
+		this.playerBattlefield.Hit(point);
+		} else {
+			console.log("END OF GAME");
+			this.GameStarted = false;
+		}
+
+	}
 }
 
 }

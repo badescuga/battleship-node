@@ -94,10 +94,28 @@ class Battlefield {
 		return true;
 	}
 
-	Hit(point) { //hit
-		if (this.array[point.x][point.y] !== TileType.Hit) {
-			this.array[point.x][point.y] = TileType.Hit;
+	HasBeenHit(point) {
+		if (this.array[point.x][point.y] === TileType.Hit) {
 			return true;
+		}
+		return false;
+	}
+	Hit(point) { //hit
+		if (this.array[point.x][point.y] === TileType.Occupied) {
+			this.array[point.x][point.y] = TileType.Hit;
+			return true; // has hit ship
+		}
+		this.array[point.x][point.y] = TileType.Hit;
+		return false; //hasn't hit ship
+	}
+
+	CheckIfShipsLeft() {
+		for (var i = 1; i <= this.sizeX; i++) {
+			for (var j = 1; j <= this.sizeY; j++) {
+				if(this.array[i][j] === TileType.Occupied) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}

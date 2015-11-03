@@ -56,10 +56,12 @@ async InitPlayer() {
 		} else {
 			console.log("adding battleship (size 1x5)");
 		}
+
+		var point = null;
 		try {
-		var point = await consolePrompter.promptAddPositionAsync();
-		} catch(error) {
-			console.log("ERROR: "+error);
+			point = await consolePrompter.promptAddPositionAsync();
+		} catch (error) {
+			console.log("ERROR: " + error);
 		}
 		var ship = null;
 		if (point) {
@@ -83,20 +85,64 @@ async InitPlayer() {
 	console.log("");
 }
 
-StartGame() {
+
+
+async PlayerStrike() {
+	console.log("==>>>> your turn =========>>>>>>");
+	var point = null;
+	do {
+		try {
+			point = await consolePrompter.promptAddPositionAsync();
+		} catch (error) {
+			console.log("ERROR: " + error);
+		}
+		if (point === null) {
+			console.log("point not correct; please try again")
+		} else if (this.enemyBattlefield.HasBeenHit(point)) {
+			console.log("destination was already hit by you; retry");
+			point = null;
+		}
+	} while (point === null);
+
+	var shipHitted = this.enemyBattlefield.Hit(point);
+	if (shipHitted) {
+		console.log("!!!! your hit the enemy's ship at point:" + point.ToString());
+		if (this.enemyBattlefield.CheckIfShipsLeft() === false) {
+			console.log("!!!!!!!!!!!!!!!!!!!! You've won!!! ");
+			this.GameStarted = false;
+		}
+		return true;
+	} else {
+		console.log("your missed!! :" + point.ToString());
+		return false;
+	}
+}
+
+async StartGame() {
 	console.log("loading game..");
 	this.GameStarted = true;
 
 	while (this.GameStarted) {
-		var point = EnemyAI.GetHittablePosition(this.playerBattlefield);
-		if(point !== null) {
-		console.log("ENEMY GOT POINT: "+point.ToString());
-		this.playerBattlefield.Hit(point);
-		} else {
-			console.log("END OF GAME");
-			this.GameStarted = false;
-		}
+		var repeatStrike = false;
+		//enemy attack
+		do {
+			repeatStrike = EnemyAI.EnemyStrike(this.playerBattlefield);
+			if (repeatStrike === null) {
+				this.GameStarted = false;
+			}
+		} while (repeatStrike === true);
 
+		if (this.GameStarted) {
+			do {
+				repeatStrike = await this.PlayerStrike();
+			} while (repeatStrike === true && this.GameStarted === true);
+		}
+		
+		console.log("Your battlefield:");
+		this.playerBattlefield.Print(true);
+		
+		console.log("\nenemy's battlefield:");
+		this.enemycd Battlefield.Print(true);
 	}
 }
 

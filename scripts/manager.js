@@ -7,6 +7,7 @@ console battlefield against the computer.
 -details regarding battlefield map: 
 	0 - Empty / 1 - Occupied(Ship) / 2 - Hit
 -once you hit an enemy ship, you get another shot.
+-type 'quit' at any moment to quit the game
  ========================================================*/
 
 

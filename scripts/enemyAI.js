@@ -1,5 +1,5 @@
 import {TileType} from './battlefield.js';
-import {Point} from './utils.js';
+import {Point, Converter} from './utils.js';
 
 class EnemyAI {
 	constructor() {
@@ -13,6 +13,7 @@ class EnemyAI {
 //smallest ship is size 4 in this example) and so on.
 	static GetHittablePosition(oponentBattlefield) {
 		
+		//return new Point(1,1); //hack for debug
 		//console.log('Getting hittable position..'+oponentBattlefield.sizeX+ ' ' + oponentBattlefield.sizeY);
 		var notHitFields = [];
 
@@ -39,14 +40,14 @@ class EnemyAI {
 			//console.log('ENEMY GOT POINT: '+point.ToString());
 			var shipHitted = oponentBattlefield.Hit(point);
 			if (shipHitted) {
-				console.log('!!!! your ship was hitted by enemy at point:' + point.ToString());
-				if (this.enemyBattlefield.CheckIfShipsLeft() === false) {
+				console.log('!!!! your ship was hitted by enemy at ' + Converter.ToDisplayCoord(point));
+				if (oponentBattlefield.CheckIfShipsLeft() === false) {
 					console.log('!!!!!!!!!!!!!!!!!!!! You\'ve lost :(( !!! ');
 					return null;
 				}
 				return true;
 			} else {
-				console.log('your enemy missed at point:' + point.ToString());
+				console.log('your enemy missed at ' + Converter.ToDisplayCoord(point));
 			}
 		} else { //this will/should never happen
 			console.log('END OF GAME -- no more points to hit');

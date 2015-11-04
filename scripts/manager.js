@@ -13,6 +13,7 @@ console battlefield against the computer.
 import {Battlefield} from './battlefield.js';
 import {Battleship, Destroyer } from './ships.js';
 import {EnemyAI} from './enemyAI.js';
+import {Converter} from './utils.js';
 var consolePrompter = require('./consolePrompter.js');
 
 
@@ -113,14 +114,14 @@ async PlayerStrike() {
 
 	var shipHitted = this.enemyBattlefield.Hit(point);
 	if (shipHitted) {
-		console.log('!!!! your hit the enemy\'s ship at point:' + point.ToString());
+		console.log('!!!! your hit the enemy\'s ship at point:' + Converter.ToDisplayCoord(point));
 		if (this.enemyBattlefield.CheckIfShipsLeft() === false) {
 			console.log('!!!!!!!!!!!!!!!!!!!! You\'ve won!!! ');
 			this.GameStarted = false;
 		}
 		return true;
 	} else {
-		console.log('you\'ve missed!! :' + point.ToString());
+		console.log('you\'ve missed!! :' + Converter.ToDisplayCoord(point));
 		return false;
 	}
 }
@@ -149,7 +150,7 @@ async StartGame() {
 		this.playerBattlefield.Print(true);
 
 		console.log('\nenemy\'s battlefield:');
-		this.enemyBattlefield.Print(true);
+		this.enemyBattlefield.Print();
 	}
 }
 }

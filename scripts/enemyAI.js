@@ -7,7 +7,7 @@ class EnemyAI {
 	}
 
 //this could be improved. For example, once i do hit a ship i know that 
-//around that point there is likely some other points of the ship to be
+//around that point there are likely other points of the ship to be
 //hit. Another improvement would be to search smart around the map; for 
 //example, parse all columns and search from 4 to 4 tiles (i.e. the 
 //smallest ship is size 4 in this example) and so on.

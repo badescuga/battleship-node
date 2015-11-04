@@ -17,6 +17,9 @@ var promptAddPositionPromise = function () {
       if (err) {
         reject(err);
       } else {
+        if(result.position === "quit") {
+          process.exit(); // exit app if you type "quit"
+        }
         resolve(result.position);
       }
 
